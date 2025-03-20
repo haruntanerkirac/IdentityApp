@@ -1,4 +1,5 @@
-﻿using IdentityApp.Web.ViewModels;
+﻿using IdentityApp.Web.Models;
+using IdentityApp.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,8 +7,8 @@ namespace IdentityApp.Web.Controllers
 {
     public class UsersController : Controller
     {
-        private UserManager<IdentityUser> _userManager;
-        public UsersController(UserManager<IdentityUser> userManager)
+        private UserManager<AppUser> _userManager;
+        public UsersController(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
         }
@@ -28,7 +29,7 @@ namespace IdentityApp.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.UserName, Email = model.Email};
+                var user = new AppUser { UserName = model.Email, Email = model.Email, FullName = model.FullName};
 
                 IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
