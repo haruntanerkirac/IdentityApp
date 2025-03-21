@@ -12,9 +12,10 @@ namespace IdentityApp.Web.Controllers
             _roleManager = roleManager;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(_roleManager.Roles);
         }
 
         [HttpGet]
