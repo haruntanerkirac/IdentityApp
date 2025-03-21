@@ -33,7 +33,7 @@ namespace IdentityApp.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.Email, Email = model.Email, FullName = model.FullName};
+                var user = new AppUser { UserName = model.UserName, Email = model.Email, FullName = model.FullName };
 
                 IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
@@ -62,12 +62,13 @@ namespace IdentityApp.Web.Controllers
 
             if (user != null)
             {
-                ViewBag.Roles = await _roleManager.Roles.Select(i=>i.Name).ToListAsync();
+                ViewBag.Roles = await _roleManager.Roles.Select(i => i.Name).ToListAsync();
 
                 return View(new EditViewModel
                 {
                     Id = user.Id,
                     FullName = user.FullName,
+                    UserName = user.UserName,
                     Email = user.Email,
                     SelectedRoles = await _userManager.GetRolesAsync(user)
                 });
@@ -91,13 +92,14 @@ namespace IdentityApp.Web.Controllers
                 {
                     user.Email = model.Email;
                     user.FullName = model.FullName!;
+                    user.UserName = model.UserName;
 
                     var result = await _userManager.UpdateAsync(user);
 
                     if (result.Succeeded && !string.IsNullOrEmpty(model.Password))
                     {
                         await _userManager.RemovePasswordAsync(user);
-                        await _userManager.AddPasswordAsync(user,model.Password);
+                        await _userManager.AddPasswordAsync(user, model.Password);
                     }
 
                     if (result.Succeeded)
@@ -108,13 +110,13 @@ namespace IdentityApp.Web.Controllers
                         {
                             await _userManager.AddToRolesAsync(user, model.SelectedRoles);
                         }
-                     
+
                         return RedirectToAction("Index");
                     }
 
                     foreach (IdentityError error in result.Errors)
                     {
-                        ModelState.AddModelError("",error.Description);
+                        ModelState.AddModelError("", error.Description);
                     }
                 }
             }
