@@ -94,15 +94,6 @@ namespace IdentityApp.Web.Controllers
 
                     await _emailSender.SendEmailAsync(user.Email, "Hesap Onayı", $"Lütfen email hesabınızı onaylamak için linke <a href='https://localhost:7237{url}'>tıklayınız.</a>");
 
-                    //await _emailSender.SendEmailAsync(user.Email,"Hesap Onayı",$"Lütfen email hesabınızı onaylamak için linke <a href=""></a>");
-
-                    /*
-                     * <a href="http://localhost:7237@Url.Action("ConfirmMail", "Account", new { id = user.Id, token }, Request.Scheme)">
-                            Tıklayınız  
-                    </a>
-                     */
-
-
                     TempData["message"] = "Email hesabınızdaki onay mailine tıklayınız!";
 
                     return RedirectToAction("Login", "Account");
