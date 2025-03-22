@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IdentityApp.Web.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class UsersController : Controller
     {
         private readonly UserManager<AppUser> _userManager;

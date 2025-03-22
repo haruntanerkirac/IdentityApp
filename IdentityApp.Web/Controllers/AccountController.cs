@@ -107,6 +107,7 @@ namespace IdentityApp.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> ConfirmMail(string id, string token)
         {
             if (id == null || token == null)
@@ -132,5 +133,11 @@ namespace IdentityApp.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
     }
 }
