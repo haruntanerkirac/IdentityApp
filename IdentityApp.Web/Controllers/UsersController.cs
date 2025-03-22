@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IdentityApp.Web.Controllers
 {
-    [Authorize]
     public class UsersController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -22,34 +21,6 @@ namespace IdentityApp.Web.Controllers
         public IActionResult Index()
         {
             return View(_userManager.Users);
-        }
-
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new AppUser { UserName = model.UserName, Email = model.Email, FullName = model.FullName };
-
-                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-
-                foreach (IdentityError error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-            }
-            return View(model);
         }
 
         [HttpGet]
